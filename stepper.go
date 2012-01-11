@@ -4,6 +4,12 @@
 // Copyright (C) 2011 by Krzysztof Kowalik <chris@nu7hat.ch>
 package stepper
 
+import (
+	"fmt"
+	"strings"
+	"os"
+)
+
 // Stepper contains information about current step's
 // state and provides functions to operate on it.
 type Stepper struct {
