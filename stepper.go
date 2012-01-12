@@ -26,8 +26,8 @@ func (s *Stepper) doStep(status byte) {
 	case 2: // FAIL
 		sstr = "\033[31mfail\033[0m"
 	}
-	sep := 80 - len(s.step) - 6
-	fmt.Printf("\r%s %s %s", s.step, strings.Repeat(".", sep), sstr)
+	sep := 80 - len(s.step) - 8
+	fmt.Printf("\r%s... %s", s.step, sstr)
 }
 
 // Fail terminates currently performed step (if any) with
