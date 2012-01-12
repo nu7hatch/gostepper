@@ -6,7 +6,6 @@ package stepper
 
 import (
 	"fmt"
-	"strings"
 	"os"
 )
 
