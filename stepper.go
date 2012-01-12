@@ -33,7 +33,7 @@ func (s *Stepper) doStep(status int) {
 	case fail:
 		sstr = "\033[31mfail\033[0m"
 	}
-	fmt.Printf("\r%s... %s", s.step, sstr)
+	fmt.Fprintf(os.Stderr, "\r%s... %s", s.step, sstr)
 }
 
 // Fail terminates currently performed step (if any) with
@@ -42,7 +42,7 @@ func (s *Stepper) doStep(status int) {
 func (s *Stepper) Fail(msg string, exit bool) {
 	if s.step != "" {
 		s.doStep(2)
-		fmt.Printf("\n\033[31m!!! %s\033[0m\n", msg)
+		fmt.Fprintf(os.Stderr, "\n\033[31m!!! %s\033[0m\n", msg)
 		if exit {
 			os.Exit(1)
 		}
