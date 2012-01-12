@@ -9,20 +9,28 @@ import (
 	"os"
 )
 
+// Possible steps
+const (
+	done = iota
+	busy
+	fail
+)
+
 // Stepper contains information about current step's
 // state and provides functions to operate on it.
 type Stepper struct {
 	step string
 }
 
-func (s *Stepper) doStep(status byte) {
+// doStep performs transition to desired step.
+func (s *Stepper) doStep(status int) {
 	var sstr string
 	switch status {
-	case 0: // DONE
+	case done:
 		sstr = "\033[32mdone\033[0m"
-	case 1: // BUSY
+	case busy:
 		sstr = "\033[34mbusy\033[0m"
-	case 2: // FAIL
+	case fail:
 		sstr = "\033[31mfail\033[0m"
 	}
 	fmt.Printf("\r%s... %s", s.step, sstr)
