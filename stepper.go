@@ -25,7 +25,6 @@ func (s *Stepper) doStep(status byte) {
 	case 2: // FAIL
 		sstr = "\033[31mfail\033[0m"
 	}
-	sep := 80 - len(s.step) - 8
 	fmt.Printf("\r%s... %s", s.step, sstr)
 }
 
