@@ -41,7 +41,7 @@ func (s *Stepper) doStep(status int) {
 // it exits the program as well.
 func (s *Stepper) Fail(msg string, exit bool) {
 	if s.step != "" {
-		s.doStep(2)
+		s.doStep(fail)
 		fmt.Fprintf(os.Stderr, "\n\033[31m!!! %s\033[0m\n", msg)
 		if exit {
 			os.Exit(1)
@@ -53,14 +53,31 @@ func (s *Stepper) Fail(msg string, exit bool) {
 // a success notification.
 func (s *Stepper) Ok() {
 	if s.step != "" {
-		s.doStep(0)
+		s.doStep(done)
 		s.step = ""
 		println()
 	}
 }
 
-// Start setups step for specified message.
-func (s *Stepper) Start(msg string, params ...interface{}) {
-	s.step = fmt.Sprintf(msg, params...)
-	s.doStep(1)
+// do setups step for specified message, executes passed operation
+// and displays appropriate results.
+func (s *Stepper) do(msg string, exit bool, fn func()(error)) {
+	s.step = msg
+	s.doStep(busy)
+        if err := fn(); err != nil {
+		s.Fail(err.Error(), exit)
+		return
+	}
+	s.Ok()
+}
+
+// MustDo executes operation and exists when error occurs.
+func (s *Stepper) MustDo(msg string, fn func()(error)) {
+	s.do(msg, true, fn)
+}
+
+// Do executes operation and lets program to keep going when
+// error occurs.
+func (s *Stepper) Do(msg string, fn func()(error)) {
+	s.do(msg, false, fn)
 }
